@@ -1,5 +1,6 @@
 from fastapi import FastAPI
 from tortoise.contrib.fastapi import register_tortoise
+import uvicorn
 
 from routes import tasks
 
@@ -12,7 +13,7 @@ app.include_router(tasks.router)
 
 register_tortoise(
     app,
-    db_url="postgres://postgres:contraseña@localhost:5432/fastapi",
+    db_url="postgres://postgres:contraseña@db:5432/fastapi",
     modules={"models": ["database.models"]},
     generate_schemas=True,
     add_exception_handlers=True
