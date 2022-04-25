@@ -49,3 +49,25 @@ async def create_task(task: TaskModel):
     })
 
     return response
+
+@router.delete("/:id", status_code=status.HTTP_200_OK)
+async def delete_task(id: int):
+    try:
+        task = await Task.get(id=id)
+    except:
+        response = jsonable_encoder({
+            "status": "error",
+            "message": "Task not found"
+        })
+
+        raise HTTPException(detail=response, status_code=status.HTTP_404_NOT_FOUND)
+    
+    await task.delete()
+
+    response = jsonable_encoder({
+        "status": "success",
+        "message": "Task deleted",
+        "data": task
+    })
+
+    return response
